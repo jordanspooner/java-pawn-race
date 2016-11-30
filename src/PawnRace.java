@@ -92,6 +92,17 @@ public class PawnRace {
                     System.out.println(validMove.getSAN());
                 }
             }
+            if (moveInput.equals("undo1")) {
+                System.out.println("Some 'debugging' information: One move has been undone:");
+                game.unapplyMove();
+                game.getBoard().display();
+            }
+            if (moveInput.equals("undo2")) {
+                System.out.println("Some 'debugging' information: Two moves have been undone:");
+                game.unapplyMove();
+                game.unapplyMove();
+                game.getBoard().display();
+            }
 
             // Return valid input or ask for a new input
             if (moves.size() == 1) {

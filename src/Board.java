@@ -48,6 +48,64 @@ class Board {
         return board[x][y];
     }
 
+    void unapplyMove(Move move) {
+        int fromX = move.getFrom().getX();
+        int fromY = move.getFrom().getY();
+        int toX = move.getTo().getX();
+        int toY = move.getTo().getY();
+        Color movingColor = move.getTo().occupiedBy();
+
+        if (movingColor == Color.WHITE) {
+            // EnPassant capture
+            if (move.isEnPassantCapture()) {
+                board[toX][fromY].setOccupier(Color.BLACK);
+                board[toX][toY].setOccupier(Color.NONE);
+                bPawns.add(board[toX][fromY]);
+            }
+
+            // Standard capture
+            else if (move.isCapture()) {
+                board[toX][toY].setOccupier(Color.BLACK);
+                bPawns.add(board[toX][toY]);
+            }
+
+            // Standard move
+            else {
+                board[toX][toY].setOccupier(Color.NONE);
+            }
+
+            // All moves
+            board[fromX][fromY].setOccupier(Color.WHITE);
+            wPawns.remove(board[toX][toY]);
+            wPawns.add(board[fromX][fromY]);
+        }
+
+        else {
+            // EnPassant capture
+            if (move.isEnPassantCapture()) {
+                board[toX][fromY].setOccupier(Color.WHITE);
+                board[toX][toY].setOccupier(Color.NONE);
+                wPawns.add(board[toX][fromY]);
+            }
+
+            // Standard capture
+            else if (move.isCapture()) {
+                board[toX][toY].setOccupier(Color.WHITE);
+                wPawns.add(board[toX][toY]);
+            }
+
+            // Standard move
+            else {
+                board[toX][toY].setOccupier(Color.NONE);
+            }
+
+            // All moves
+            board[fromX][fromY].setOccupier(Color.BLACK);
+            bPawns.remove(board[toX][toY]);
+            bPawns.add(board[fromX][fromY]);
+        }
+    }
+
     void applyMove(Move move) {
         int fromX = move.getFrom().getX();
         int fromY = move.getFrom().getY();
@@ -63,7 +121,7 @@ class Board {
             }
 
             // Standard capture
-            if (move.isCapture() && !move.isEnPassantCapture()) {
+            else if (move.isCapture()) {
                 bPawns.remove(board[toX][toY]);
             }
 
@@ -72,7 +130,9 @@ class Board {
             board[toX][toY].setOccupier(Color.WHITE);
             wPawns.remove(board[fromX][fromY]);
             wPawns.add(board[toX][toY]);
-        } else {
+        }
+
+        else {
             // EnPassant capture
             if (move.isEnPassantCapture()) {
                 board[toX][fromY].setOccupier(Color.NONE);
@@ -80,7 +140,7 @@ class Board {
             }
 
             // Standard capture
-            if (move.isCapture() && !move.isEnPassantCapture()) {
+            else if (move.isCapture()) {
                 wPawns.remove(board[toX][toY]);
             }
 

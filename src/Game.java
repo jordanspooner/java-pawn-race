@@ -11,6 +11,10 @@ class Game {
         currentPlayer = Color.WHITE;
     }
 
+    Board getBoard() {
+        return board;
+    }
+
     Color getCurrentPlayer() {
         return currentPlayer;
     }
@@ -23,6 +27,13 @@ class Game {
         moves.add(move);
         board.applyMove(move);
         currentPlayer = Color.opposite(currentPlayer);
+    }
+
+    void unapplyMove() {
+        currentPlayer = Color.opposite(currentPlayer);
+        Move move = getLastMove();
+        board.unapplyMove(move);
+        moves.remove(moves.size() - 1);
     }
 
     boolean isFinished() {
