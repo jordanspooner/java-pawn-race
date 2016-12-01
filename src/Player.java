@@ -17,8 +17,8 @@ public class Player {
     // AI Selection
     void makeMove() {
         if (isComputerPlayer) {
-            MoveValue ai = new MoveValue(game, game.getCurrentPlayer(), 0);
-            Move move = ai.alphaBeta(-10000, 10000, 6).getMvMove();
+            AI ai = new AI(game, game.getCurrentPlayer());
+            Move move = ai.alphaBeta(10);
             game.applyMove(move);
         }
     }
