@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class AI{
 
     private Game game;
@@ -8,10 +10,13 @@ class AI{
         this.player = player;
     }
 
-    Move alphaBeta(int depth) {
+    Move alphaBeta(double depthFactor) {
         int bestScore = - 1000000000;
         Move bestMove = null;
-        for (Move validMove : game.getAllValidMoves()) {
+        ArrayList<Move> validMoves = game.getAllValidMoves();
+        double complexity = validMoves.size();
+        int depth = (int)(depthFactor / Math.log(complexity));
+        for (Move validMove : validMoves) {
             game.applyMove(validMove);
             int score = alphaBetaHelper(depth, - 1000000000, 1000000000);
             game.unapplyMove();
@@ -19,9 +24,9 @@ class AI{
                 bestMove = validMove;
                 bestScore = score;
             }
-            System.out.println("Score for the move " + validMove.getSAN() + " was " + score);
+            // System.out.println("Score for the move " + validMove.getSAN() + " was " + score);
         }
-        System.out.println("Choosing the move " + bestMove.getSAN());
+        // System.out.println("Choosing the move " + bestMove.getSAN());
         return bestMove;
     }
 
@@ -54,15 +59,11 @@ class AI{
     }
 
     private int value() {
-        if (game.isFinished()) {
-            Color winner = game.getCurrentPlayer();
-            if (winner == player) {
-                return 1000000;
-            } else if (winner == Color.opposite(player)) {
-                return -1000000;
-            } else {
-                return 0;
-            }
+        Color winner = game.getGameResult();
+        if (winner == player) {
+            return 1000000;
+        } else if (winner == Color.opposite(player)) {
+            return -1000000;
         } else {
             int tally = 0;
             for (Square pawn : game.getBoard().getWPawns()) {
