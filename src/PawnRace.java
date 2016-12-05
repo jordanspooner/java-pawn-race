@@ -73,11 +73,11 @@ public class PawnRace {
     private static Move getMove(Game game) {
         while (true) {
             // Get input
-            ArrayList<Move> moves = new ArrayList<>();
             Scanner scanner = new Scanner(System.in);
             String moveInput = scanner.next();
 
             // Check validity
+            ArrayList<Move> moves = new ArrayList<>();
             for (Move validMove : game.getAllValidMoves()) {
                 String san = validMove.getSAN();
                 if (san.contains(moveInput)) {
@@ -92,7 +92,7 @@ public class PawnRace {
                     System.out.println(validMove.getSAN());
                 }
             }
-            if (moveInput.equals("undo1")) {
+            if (moveInput.equals("undo")) {
                 System.out.println("Some 'debugging' information: One move has been undone:");
                 game.unapplyMove();
                 game.getBoard().display();
@@ -102,6 +102,12 @@ public class PawnRace {
                 game.unapplyMove();
                 game.unapplyMove();
                 game.getBoard().display();
+            }
+            if (moveInput.equals("ai")) {
+                System.out.println("Some 'debugging' information: Why not choose this move:");
+                AI ai = new AI(game, game.getCurrentPlayer());
+                Move move = ai.alphaBeta(20);
+                return move;
             }
 
             // Return valid input or ask for a new input

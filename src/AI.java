@@ -16,6 +16,7 @@ class AI{
         ArrayList<Move> validMoves = game.getAllValidMoves();
         double complexity = validMoves.size();
         int depth = (int)(depthFactor / Math.log(complexity));
+        System.out.println("Deciding to do " + depth + " iterations");
         for (Move validMove : validMoves) {
             game.applyMove(validMove);
             int score = alphaBetaHelper(depth, - 1000000000, 1000000000);
@@ -24,9 +25,9 @@ class AI{
                 bestMove = validMove;
                 bestScore = score;
             }
-            // System.out.println("Score for the move " + validMove.getSAN() + " was " + score);
+            System.out.print(validMove.getSAN() + " " + score + " | ");
         }
-        // System.out.println("Choosing the move " + bestMove.getSAN());
+        System.out.println("Choose " + bestMove.getSAN());
         return bestMove;
     }
 
@@ -65,14 +66,44 @@ class AI{
         } else if (winner == Color.opposite(player)) {
             return -1000000;
         } else {
+            ArrayList<Square> wPawns = game.getBoard().getWPawns();
+            ArrayList<Square> bPawns = game.getBoard().getBPawns();
             int tally = 0;
-            for (Square pawn : game.getBoard().getWPawns()) {
+            for (Square pawn : wPawns) {
+                int x = pawn.getX();
                 int y = pawn.getY();
+                boolean passed = true;
+                for (Square oppPawn : bPawns) {
+                    int oppX = oppPawn.getX();
+                    int oppY = oppPawn.getY();
+                    if (Math.abs(x - oppX) <= 1) {
+                        if (y < oppY) {
+                            passed = false;
+                        }
+                    }
+                }
                 tally += y;
+                if (passed) {
+                    tally += 100;
+                }
             }
-            for (Square pawn : game.getBoard().getBPawns()) {
+            for (Square pawn : bPawns) {
+                int x = pawn.getX();
                 int y = 7 - pawn.getY();
+                boolean passed = true;
+                for (Square oppPawn : wPawns) {
+                    int oppX = oppPawn.getX();
+                    int oppY = 7 - oppPawn.getY();
+                    if (Math.abs(x - oppX) <= 1) {
+                        if (y < oppY) {
+                            passed = false;
+                        }
+                    }
+                }
                 tally -= y;
+                if (passed) {
+                    tally -= 100;
+                }
             }
             if (player == Color.WHITE) {
                 return tally;

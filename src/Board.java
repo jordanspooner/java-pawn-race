@@ -4,8 +4,8 @@ import java.util.Arrays;
 class Board {
 
     private Square[][] board = new Square[8][8];
-    private ArrayList<Square> wPawns = new ArrayList<>();
-    private ArrayList<Square> bPawns = new ArrayList<>();
+    private ArrayList<Square> wPawns = new ArrayList<>(7);
+    private ArrayList<Square> bPawns = new ArrayList<>(7);
 
     Board(Character whiteGap, Character blackGap) {
         int whiteGapIndex = getIndex(whiteGap);

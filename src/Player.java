@@ -18,7 +18,7 @@ public class Player {
     void makeMove() {
         if (isComputerPlayer) {
             AI ai = new AI(game, game.getCurrentPlayer());
-            Move move = ai.alphaBeta(17.5);
+            Move move = ai.alphaBeta(18);
             game.applyMove(move);
         }
     }

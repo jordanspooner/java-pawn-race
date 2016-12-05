@@ -4,7 +4,7 @@ class Game {
 
     private Board board;
     private Color currentPlayer;
-    private ArrayList<Move> moves = new ArrayList<>();
+    private ArrayList<Move> moves = new ArrayList<>(100);
 
     Game(Board board) {
         this.board = board;
@@ -76,7 +76,7 @@ class Game {
     }
 
     ArrayList<Move> getAllValidMoves() {
-        ArrayList<Move> validMoves = new ArrayList<>();
+        ArrayList<Move> validMoves = new ArrayList<>(14);
         int u = 1;
         if (currentPlayer == Color.BLACK) {
             u = -1;
