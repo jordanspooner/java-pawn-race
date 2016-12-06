@@ -26,6 +26,9 @@ class AI{
                 bestScore = score;
             }
             System.out.print(validMove.getSAN() + " " + score + " | ");
+            if (bestScore == 1000000) {
+                break;
+            }
         }
         System.out.println("Choose " + bestMove.getSAN());
         return bestMove;

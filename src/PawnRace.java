@@ -107,7 +107,6 @@ public class PawnRace {
                 System.out.println("Some 'debugging' information: Why not choose this move:");
                 AI ai = new AI(game, game.getCurrentPlayer());
                 Move move = ai.alphaBeta(20);
-                return move;
             }
 
             // Return valid input or ask for a new input
